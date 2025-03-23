@@ -1,0 +1,266 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Fredoka", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+#root {
+  width: 100%;
+  height: 100%;
+  max-width: 1920px;
+}
+html {
+  font-size: 62.5%;
+  width: 100%;
+  min-height: 100vh;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--beige);
+  color: var(--brown);
+}
+
+:root {
+  font-family: "Fredoka", sans-serif;
+  /* Color pallete variante */
+  --primary: #67b095;
+  --secondary: rgba(103, 176, 149, 0.5);
+  --black: #24160a;
+  --beige: #ffdbae;
+  --search: rgba(255, 255, 255, 0.2);
+  --brown: #24160a;
+
+  --white: #ffffff;
+  --error: #d05d5b;
+  --warning: #e7c05c;
+
+  --border-radius-small: 10px;
+  --border-radius-medium: 25px;
+  --border-radius-big: 50px;
+}
+
+/*Dark mode*/
+
+[data-theme="dark"] {
+  --beige: #24160a;
+  --brown: #ffffff;
+  --title: #ffdbae;
+  .icon {
+    color: var(--primary);
+    &:hover {
+      color: var(--title);
+    }
+  }
+  .title {
+    color: var(--title);
+  }
+}
+
+/* Font size */
+
+h1 {
+  font-size: 6.4rem;
+}
+h2 {
+  font-size: 3.6rem;
+  padding-bottom: 4rem;
+}
+h3 {
+  font-size: 2.8rem;
+}
+h4 {
+  font-size: 2rem;
+}
+
+.text-xl {
+  font-size: 1.8rem;
+}
+.text-l {
+  font-size: 1.6rem;
+}
+.text-m {
+  font-size: 1.4rem;
+}
+.text-sm {
+  font-size: 1.2rem;
+}
+
+.text-xs {
+  font-size: 1rem;
+}
+/* Padding Section */
+.padding-section {
+  padding-bottom: 12rem;
+}
+/* Button style */
+.button {
+  cursor: pointer;
+  position: relative;
+  background-color: var(--secondary);
+  padding: 1rem 2.4rem;
+  font-size: 1.6rem;
+  font-weight: 400;
+
+  border: 2px solid var(--primary);
+  border-radius: var(--border-radius-big);
+
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  overflow: hidden;
+  color: var(--black);
+}
+
+.button-secondary {
+  cursor: pointer;
+  position: relative;
+  background-color: var(--search);
+  padding: 1rem 2.4rem;
+  font-size: 1.6rem;
+  font-weight: 400;
+
+  border: 2px solid var(--primary);
+  border-radius: var(--border-radius-big);
+
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  overflow: hidden;
+  color: var(--black);
+}
+
+.button svg {
+  font-size: 2.4rem;
+  /* Größere Icons */
+  margin-right: 0.8rem;
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  margin: auto;
+  width: 73px;
+  height: 50px;
+  border-radius: inherit;
+  scale: 0;
+  z-index: -1;
+  background-color: var(--secondary);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.button:hover::before {
+  scale: 3;
+}
+
+.button:hover {
+  color: var(--black);
+  scale: 1;
+}
+
+.button:active {
+  scale: 1.05;
+  background-color: var(--primary);
+}
+
+.search-input {
+  padding: 10px 24px;
+  font-size: 18px;
+  border: 2px solid var(--primary);
+  border-radius: 34px;
+  background-color: var(--search);
+  color: var(--brown);
+}
+
+.search-input:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(193, 163, 98, 0.4);
+}
+
+/* Media Queries für Tablets (768px - 1023px) */
+@media screen and (max-width: 1023px) and (min-width: 768px) {
+  .button {
+    padding: 8px 20px;
+    font-size: 15px;
+  }
+
+  .button svg {
+    font-size: 20px;
+    margin-right: 6px;
+  }
+
+  .button::before {
+    width: 60px;
+    height: 40px;
+  }
+
+  .search-input {
+    padding: 8px 20px;
+    font-size: 16px;
+  }
+
+  .padding-section {
+    padding-bottom: 8rem;
+  }
+}
+
+/* Media Queries für Mobiltelefone (unter 768px) */
+@media screen and (max-width: 767px) {
+  h1 {
+    font-size: 4.8rem;
+  }
+  .button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .button svg {
+    font-size: 18px;
+    margin-right: 5px;
+  }
+
+  .button::before {
+    width: 50px;
+    height: 35px;
+  }
+
+  .search-input {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+  .padding-section {
+    padding-bottom: 4rem;
+  }
+}
+
+/* Für sehr kleine Bildschirme (unter 480px) */
+@media screen and (max-width: 479px) {
+  .button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .button svg {
+    font-size: 16px;
+    margin-right: 4px;
+  }
+
+  .search-input {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  #root {
+    width: 100%;
+    height: 100%;
+  }
+}

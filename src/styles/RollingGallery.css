@@ -1,0 +1,135 @@
+.gallery-container {
+  margin: auto;
+  position: relative;
+  width: 100%;
+  height: 160px; /* Fixed height to accommodate images + border */
+  /* overflow: hidden; */
+}
+
+.gallery-gradient {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transform: translateY(-30%);
+  width: 48px;
+  z-index: 10;
+}
+
+.gallery-gradient-left {
+  left: 0;
+  background: linear-gradient(
+    to left,
+    rgba(255, 255, 255, 0) 0%,
+    var(--beige) 100%
+  );
+}
+
+.gallery-gradient-right {
+  right: 0;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    var(--beige) 100%
+  );
+}
+
+.gallery-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 1000px; /* Default perspective for small screens */
+  transform-style: preserve-3d;
+}
+
+.gallery-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+  gap: 20px;
+}
+
+.gallery-item {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backface-visibility: hidden;
+  height: auto;
+  padding: 5px;
+}
+
+.gallery-img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 10px;
+  border: 5px solid var(--primary);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.gallery-item:hover .gallery-img {
+  transform: scale(1.05);
+  transition: 0.3s ease;
+}
+
+/* Media Queries for different screen sizes */
+@media (min-width: 768px) {
+  .gallery-container {
+    height: 200px;
+  }
+
+  .gallery-content {
+    perspective: 2000px;
+  }
+
+  .gallery-img {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .gallery-container {
+    height: 240px;
+  }
+
+  .gallery-content {
+    perspective: 2500px;
+  }
+
+  .gallery-img {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .gallery-container {
+    height: 280px;
+  }
+
+  .gallery-content {
+    perspective: 3000px;
+  }
+
+  .gallery-img {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+@media (max-width: 768px) {
+  .gallery-item {
+    padding: 6%;
+  }
+  .gallery-img {
+    height: 100px;
+    width: 220px;
+  }
+}

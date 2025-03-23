@@ -1,0 +1,388 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+.search-buttons-container {
+    width: 100%;
+    max-width: 750px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    font-family: 'Fredoka', sans-serif;
+}
+
+.top-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.top-buttons .button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.bottom-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.filter-section {
+    position: relative;
+    width: calc(33.33% - 13.33px);
+}
+
+.filter-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.search-section {
+    display: flex;
+    gap: 5px;
+    width: calc(66.66% - 6.66px);
+}
+
+.search-input {
+    flex: 1;
+    border-radius: 34px 4px 4px 34px;
+}
+
+.search-button {
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    border-radius: 4px 34px 34px 4px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 300px;
+    background: var(--beige);
+    border: 2px solid var(--secondary);
+    border-radius: var(--border-radius-medium);
+    margin-top: 10px;
+    padding: 15px;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Fredoka', sans-serif;
+    margin-bottom: 50px;
+}
+
+.filter-field {
+    padding: 0 5px;
+    margin-bottom: 15px;
+}
+
+.filter-field label {
+    display: block;
+    text-align: center;
+    margin-bottom: 5px;
+    color: var(--black);
+}
+
+.filter-field input {
+    width: 100%;
+    padding: 8px 20px;
+    text-align: center;
+    border: 2px solid var(--primary);
+    border-radius: var(--border-radius-medium);
+    background-color: var(--search);
+    color: var(--black);
+}
+
+.codec-selection {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.codec-selection label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--black);
+}
+
+.codec-options {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.checkbox-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+    justify-content: center;
+
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--black);
+    font-family: 'Fredoka', sans-serif;
+}
+
+/* Styling für Checkboxen */
+.checkbox-group input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: var(--search);
+    border: 2px solid var(--primary);
+    cursor: pointer;
+    margin-right: 8px;
+    position: relative;
+}
+
+/* Styling für den Haken in der Checkbox */
+.checkbox-group input[type="checkbox"]:checked::before {
+    content: '✓';
+    position: absolute;
+    color: var(--black);
+    font-size: 24px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Styling für number input (Min. Bitrate) */
+.filter-field input[type="number"] {
+    width: 100%;
+    padding: 8px 20px;
+    border: 2px solid var(--primary);
+    background-color: var(--search);
+    color: var(--black);
+    font-family: 'Fredoka', sans-serif;
+    -moz-appearance: textfield;
+}
+
+/* Entfernt die Standard-Pfeile für Chrome, Safari, Edge, Opera */
+.filter-field input[type="number"]::-webkit-inner-spin-button,
+.filter-field input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Styling für den zusätzlichen Suchbutton im Dropdown */
+.dropdown-search-button-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.dropdown-search-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 150px; /* Breite des Buttons */
+}
+
+/* Media Queries für Tablets (768px - 1023px) */
+@media screen and (max-width: 1023px) and (min-width: 768px) {
+    .search-buttons-container {
+        max-width: 600px;
+        padding: 15px;
+        gap: 15px;
+    }
+    
+    .top-buttons {
+        gap: 15px;
+    }
+    
+    .bottom-section {
+        gap: 15px;
+    }
+    
+    .dropdown-menu {
+        width: 280px;
+        padding: 12px;
+    }
+    
+    .filter-field {
+        margin-bottom: 12px;
+    }
+    
+    .filter-field input {
+        padding: 7px 15px;
+    }
+    
+    .checkbox-group {
+        gap: 12px;
+    }
+    
+    .checkbox-group input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .checkbox-group input[type="checkbox"]:checked::before {
+        font-size: 20px;
+    }
+}
+/* Media Queries für Mobiltelefone (unter 768px) */
+@media screen and (max-width: 767px) {
+    .search-buttons-container {
+        max-width: 100%;
+        padding: 12px;
+        gap: 12px;
+    }
+    
+    .top-buttons {
+        flex-direction: column;
+        align-items: center; /* Zentriert die Buttons */
+        gap: 10px;
+    }
+    
+    .top-buttons .button {
+        max-width: 50%; /* Maximale Breite für Buttons */
+        width: 100%;
+    }
+    
+    .bottom-section {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .filter-section {
+        width: 100%;
+        display: flex;
+        justify-content: center; /* Zentriert den Filter-Button */
+    }
+    
+    .filter-button {
+        max-width: 50%; /* Maximale Breite für Filter-Button */
+    }
+    
+    .search-section {
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center; /* Zentriert die Suchelemente */
+    }
+    
+    .search-input {
+      
+        border-radius: var(--border-radius-big);
+        max-width: 100%;
+        width: 100%; /* Full width */
+        max-width: 50%; /* Match the max-width of buttons */
+    
+    }
+    
+    .search-button {
+        border-radius: var(--border-radius-big);
+        max-width: 50%; /* Maximale Breite für Such-Button */
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .dropdown-menu {
+        width: 60%; /* 60% vom Bildschirm */
+        left: 50%; /* Positionierung für Zentrierung */
+        transform: translateX(-50%); /* Zentriert das Dropdown-Menü */
+        right: auto;
+    }
+    
+    .filter-field {
+        margin-bottom: 10px;
+    }
+    
+    .filter-field input {
+        padding: 7px 15px;
+    }
+    
+    .checkbox-group {
+        gap: 10px;
+    }
+    
+    .checkbox-group input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .checkbox-group input[type="checkbox"]:checked::before {
+        font-size: 18px;
+    }
+}
+
+/* Für sehr kleine Bildschirme (unter 480px) */
+@media screen and (max-width: 479px) {
+    .search-buttons-container {
+        padding: 10px;
+        gap: 10px;
+    }
+    
+    .top-buttons {
+        gap: 8px;
+    }
+    
+    .top-buttons .button {
+        max-width: 50%; /* Maximale Breite beibehalten */
+    }
+    
+    .bottom-section {
+        gap: 8px;
+    }
+    
+    .filter-button {
+        max-width: 50%; /* Maximale Breite beibehalten */
+    }
+    
+    .search-button {
+        max-width: 50%; /* Maximale Breite beibehalten */
+    }
+    
+    .dropdown-menu {
+        width: 60%; /* 60% vom Bildschirm beibehalten */
+        padding: 10px;
+    }
+    
+    .filter-field {
+        margin-bottom: 8px;
+    }
+    
+    .filter-field label {
+        font-size: 14px;
+    }
+    
+    .filter-field input {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+    
+    .codec-selection label {
+        font-size: 14px;
+    }
+    
+    .checkbox-group {
+        gap: 8px;
+    }
+    
+    .checkbox-group label {
+        font-size: 14px;
+    }
+    
+    .checkbox-group input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .checkbox-group input[type="checkbox"]:checked::before {
+        font-size: 16px;
+    }
+}

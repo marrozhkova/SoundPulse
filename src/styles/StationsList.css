@@ -1,0 +1,142 @@
+.stations-container {
+  width: 90%;
+  margin: auto;
+  padding: 12rem 0rem 12rem 0rem;
+}
+.text-center {
+  text-align: center;
+}
+.stations-list {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-row: span 3;
+  gap: 2rem;
+  padding-bottom: 6rem;
+}
+
+.station-item {
+  position: relative;
+  padding: 2rem 2rem 2rem 0rem;
+  background: var(--search);
+  border-radius: var(--border-radius-medium);
+  border: 2px solid var(--primary);
+  display: grid;
+  grid-template-columns: 30% 70%;
+  cursor: pointer;
+  /* grid-template-rows: subgrid;
+  grid-row: span 3;
+   */
+}
+
+.station-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-row: span 3;
+  img {
+    width: 70%;
+    height: auto;
+  }
+}
+
+.station-description {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  /* display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 3; */
+}
+.pagination-controls {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  button {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+}
+
+.button-next-prev {
+  min-width: 20rem;
+  min-height: 4rem;
+}
+
+@media (max-width: 480px) {
+  .stations-list {
+    grid-template-columns: 1fr;
+  }
+  .button-next-prev {
+    min-width: 11.7rem;
+    min-height: 3rem;
+  }
+}
+@media (min-width: 481px) and (max-width: 768px) {
+  .stations-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.loading {
+  margin: auto;
+  text-align: center;
+}
+.delete-container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.delete-button {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background-color: transparent;
+  border: none;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  overflow: hidden;
+  position: relative;
+  gap: 2px;
+}
+
+.svgIcon {
+  width: 1.8rem;
+  transition-duration: 0.3s;
+}
+
+.svgIcon path {
+  fill: var(--brown);
+}
+
+.delete-button:hover .svgIcon path {
+  transition-duration: 0.3s;
+  fill: var(--error);
+}
+
+.bin-top {
+  transform-origin: bottom right;
+}
+.delete-button:hover .bin-top {
+  transition-duration: 0.5s;
+  transform: rotate(160deg);
+}
+
+.stations-container.empty-favorites {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 2rem;
+  color: var(--brown);
+  font-size: 1.2rem;
+}

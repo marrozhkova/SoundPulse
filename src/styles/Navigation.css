@@ -1,0 +1,135 @@
+.navbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.5rem 4rem;
+  /* background: var(--secondary); */
+  background: var(--beige);
+  height: 60px;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.nav-left {
+  display: flex;
+  gap: 1.6rem;
+  align-items: center;
+}
+
+.icon {
+  cursor: pointer;
+  color: var(--black);
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.icon:hover {
+  transform: scale(1.1);
+  color: var(--primary);
+}
+
+.language-dropdown {
+  list-style: none;
+  padding: 0.5rem;
+  margin: 0;
+  background: var(--white);
+  color: var(--black);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  position: absolute;
+  top: 50px;
+  left: -10px;
+  z-index: 1000;
+  width: 110px;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.language-icon.active .language-dropdown {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.language-dropdown li {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.language-dropdown li:hover {
+  background-color: rgba(103, 176, 149, 0.1);
+}
+
+.language-dropdown li svg {
+  margin-right: 0.5rem;
+}
+
+/* Account Dropdown */
+.account-icon.active .account-dropdown {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.account-dropdown {
+  list-style: none;
+  padding: 0.5rem;
+  margin: 0;
+  background: var(--white);
+  color: var(--black);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  position: absolute;
+  top: 50px;
+  left: -20px;
+  z-index: 1000;
+  width: 60px;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.account-dropdown li {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.account-dropdown li:hover {
+  background-color: rgba(103, 176, 149, 0.1);
+}
+
+/* Desktop */
+.icon svg,
+.icon img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .icon svg,
+  .icon img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .navbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0rem 2rem;
+    background: white;
+    height: 50px;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+}
