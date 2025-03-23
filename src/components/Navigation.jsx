@@ -86,12 +86,19 @@ const Navigation = () => {
         setShowAccountMenu(false);
       }
     };
-
+    const handleEscKey = (event) => {
+      if (event.key === "Escape") {
+        setShowLanguages(false);
+        setShowAccountMenu(false);
+      }
+    };
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscKey);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscKey);
     };
-  }, []);
+  }, [showLanguages, showAccountMenu]);
 
   return (
     <>

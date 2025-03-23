@@ -54,6 +54,7 @@ import {
 import VolumeController from "./VolumeController";
 import { FetchContext } from "../contexts/FetchContext";
 import "../styles/Player.css";
+import player from "/player.webp";
 
 const Player = ({ audio }) => {
   const { t } = useTranslation();
@@ -107,11 +108,22 @@ const Player = ({ audio }) => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    const handleEscKey = (event) => {
+      if (event.key === "Escape") {
+        setIsShare(false);
+      }
+    };
+
+    if (isShare) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleEscKey);
+    }
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscKey);
     };
-  }, []);
+  }, [isShare]);
 
   const handleShare = () => {
     setIsShare(!isShare);
@@ -235,7 +247,7 @@ const Player = ({ audio }) => {
   return (
     <div className="padding-section">
       <div className="player-container ">
-        <img src="/player.webp" alt="Player" className="player-background" />
+        <img src={player} alt="Player" className="player-background" />
 
         {/* Now Playing Info Box */}
         <div className="now-playing-info">
@@ -286,7 +298,7 @@ const Player = ({ audio }) => {
                   <FaShare size={24} />
                 </button>
                 {isShare && (
-                  <div className="socialShare">
+                  <div className="socialShare" ref={containerRef}>
                     <EmailShareButton
                       url={url}
                       subject="Check this out"

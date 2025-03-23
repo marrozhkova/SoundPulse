@@ -35,50 +35,26 @@ const StationsList = () => {
   const [displayedFavorites, setDisplayedFavorites] = useState([]);
   const [hasMoreFavorites, setHasMoreFavorites] = useState(false);
 
-  // Update useEffect for favorites pagination with default value
+  // Update useEffect for favorites pagination without debug logs
   useEffect(() => {
-    console.log("Favorites pagination effect running:", {
-      displayMode,
-      favoritesLength: favorites?.length,
-      currentPage: favoritesPage,
-      itemsPerPage: itemsPerPage || defaultItemsPerPage,
-    });
-
     if (displayMode === "favorites" && Array.isArray(favorites)) {
-      // Use default value if itemsPerPage is undefined
       const perPage = itemsPerPage || defaultItemsPerPage;
       const start = favoritesPage * perPage;
       const end = start + perPage;
       const slicedFavorites = favorites.slice(start, end);
 
-      console.log("Updating displayed favorites:", {
-        totalFavorites: favorites.length,
-        perPage,
-        start,
-        end,
-        slicedLength: slicedFavorites.length,
-        actualSlice: slicedFavorites,
-      });
-
       setDisplayedFavorites(slicedFavorites);
       setHasMoreFavorites(favorites.length > end);
-    } else {
-      console.log("Not updating displayed favorites:", {
-        displayMode,
-        favoritesIsArray: Array.isArray(favorites),
-        favorites,
-      });
     }
   }, [favorites, favoritesPage, itemsPerPage, displayMode]);
 
-  // Add effect to handle empty page after deletion
+  // Update effect for empty page handling without debug logs
   useEffect(() => {
     if (
       displayMode === "favorites" &&
       displayedFavorites.length === 0 &&
       favoritesPage > 0
     ) {
-      console.log("Current page empty after deletion, moving to previous page");
       setFavoritesPage((prev) => prev - 1);
     }
   }, [displayedFavorites, favoritesPage, displayMode]);
@@ -96,19 +72,18 @@ const StationsList = () => {
     }
   };
 
-  // Update delete handler
+  // Update delete handler without debug logs
   const handleDelete = (e, stationId) => {
     e.stopPropagation();
     deleteFavorite(stationId);
 
-    // If this was the last item on the page (except first page)
     const itemsOnCurrentPage = displayedFavorites.length;
     if (itemsOnCurrentPage === 1 && favoritesPage > 0) {
-      console.log("Last item on page deleted, moving to previous page");
       setFavoritesPage((prev) => prev - 1);
     }
   };
 
+  // Update resize handler without debug logs
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
@@ -116,13 +91,10 @@ const StationsList = () => {
 
       if (width <= 480) {
         setItemsPerPage(6);
-        // console.log("Mobile view:", width, "- 6 items");
       } else if (width <= 768) {
         setItemsPerPage(8);
-        // console.log("Tablet view:", width, "- 8 items");
       } else {
         setItemsPerPage(12);
-        // console.log("Desktop view:", width, "- 12 items");
       }
     };
 
@@ -132,9 +104,28 @@ const StationsList = () => {
   }, [setItemsPerPage]);
 
   const stationsToDisplay = getStationsToDisplay();
+
+  const getEmptyMessage = () => {
+    switch (displayMode) {
+      case "favorites":
+        return t("No favorites yet");
+      case "search":
+      case "filter":
+        return t("No stations found matching your demand"); // Generic message for both search and filter
+      case "genre":
+        return t("No stations found in this genre");
+      default:
+        return t("No stations found");
+    }
+  };
+
+  // Update the isEmpty check
   const isEmpty =
-    displayMode === "favorites" &&
-    (!stationsToDisplay || stationsToDisplay.length === 0);
+    (displayMode === "favorites" && (!favorites || favorites.length === 0)) ||
+    ((displayMode === "search" || displayMode === "filter") &&
+      (!stationsToDisplay || stationsToDisplay.length === 0)) ||
+    (displayMode === "genre" &&
+      (!stationsToDisplay || stationsToDisplay.length === 0));
 
   // Update the showPagination check to include search mode
   const showPagination =
@@ -152,7 +143,7 @@ const StationsList = () => {
   };
 
   return (
-    <div className={`stations-container ${isEmpty ? "empty-favorites" : ""}`}>
+    <div className={`stations-container ${isEmpty ? "empty-state" : ""}`}>
       <h2 className="h2 text-center">
         {displayMode === "genre" && stationGenre
           ? `${t("Radio Stations")} - ${t(stationGenre)}`
@@ -164,7 +155,7 @@ const StationsList = () => {
       </h2>
 
       {isEmpty ? (
-        <div className="empty-message">{t("No favorites yet")}</div>
+        <div className="empty-message">{getEmptyMessage()}</div>
       ) : (
         <>
           {displayMode === "favorites" ? (
@@ -178,7 +169,6 @@ const StationsList = () => {
                     }`}
                     onClick={() => handleStationClick(station)}
                   >
-                    {" "}
                     {displayMode === "favorites" && (
                       <div className="delete-container">
                         <button

@@ -38,12 +38,14 @@ import {
   WhatsappIcon,
   WorkplaceIcon,
 } from "react-share";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import "../styles/LikeComponent.css";
 import { useContext } from "react";
 import { FetchContext } from "../contexts/FetchContext";
 
 const LikeComponent = () => {
+  console.log("Component rendering");
+
   const { like, currentStation, handleDislike, isDisliked, favorites } =
     useContext(FetchContext);
 
@@ -66,29 +68,64 @@ const LikeComponent = () => {
   const [isShare, setIsShare] = useState(false);
   const containerRef = useRef(null);
 
+  // Add debug flag
+  const [debug] = useState(true);
+
+  // Add debug function
+  const debugLog = (message, data) => {
+    if (debug) {
+      console.log(`[LikeComponent] ${message}`, data || "");
+    }
+  };
+
   useEffect(() => {
+    debugLog("Component mounted");
+
     const handleClickOutside = (event) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target)
-      ) {
-        setIsShare(false);
+      debugLog("Click detected", {
+        target: event.target,
+        containerExists: !!containerRef.current,
+      });
+
+      if (containerRef.current) {
+        const isInside = containerRef.current.contains(event.target);
+        debugLog("Click position", { isInside });
+
+        const isShareButton = event.target.closest('[class*="ShareButton"]');
+        debugLog("Share button check", { isShareButton: !!isShareButton });
+
+        if (!isInside && !isShareButton) {
+          debugLog("Closing share menu");
+          setIsShare(false);
+        }
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    debugLog("Effect running", { isShare });
+
+    if (isShare) {
+      debugLog("Adding event listener");
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
     return () => {
+      debugLog("Cleanup: removing listener");
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [isShare]);
 
-  const handleShare = () => {
-    setIsShare(!isShare);
-    // console.log("Share state:", !isShare);
-  };
+  const handleShare = useCallback(
+    (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      debugLog("Share button clicked", { currentState: isShare });
+      setIsShare((prev) => !prev);
+    },
+    [isShare]
+  );
 
   return (
-    <div ref={containerRef} className="buttons-container">
+    <div className="buttons-container">
       <button onClick={handleShare} className={`${isShare ? "active" : ""}`}>
         Share
       </button>
@@ -110,7 +147,7 @@ const LikeComponent = () => {
         Dislike
       </button>
       {isShare && (
-        <div className="socialShare">
+        <div className="socialShare" ref={containerRef}>
           <EmailShareButton url={url} subject="Check this out" size={size}>
             <EmailIcon size={size} round />
           </EmailShareButton>
