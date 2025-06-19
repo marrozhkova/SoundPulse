@@ -9,7 +9,6 @@ import { useContext } from "react";
 import { FetchContext } from "../contexts/FetchContext";
 import "../styles/RollingGallery.css";
 
-// Image imports
 import all from "/carousal/all.webp";
 import classical from "/carousal/classical.webp";
 import country from "/carousal/country.webp";
@@ -20,6 +19,9 @@ import jazz from "/carousal/jazz.webp";
 import pop from "/carousal/pop.webp";
 import retro from "/carousal/retro.webp";
 import rock from "/carousal/rock.webp";
+import ska from "/carousal/ska.webp";
+import blues from "/carousal/blues.webp";
+import reggae from "/carousal/reggae.webp";
 
 const IMGS = [
   all,
@@ -32,6 +34,9 @@ const IMGS = [
   pop,
   retro,
   rock,
+  ska,
+  blues,
+  reggae,
 ];
 
 const getDragFactor = () => {
@@ -59,7 +64,7 @@ const RollingGallery = ({ autoplay = false, pauseOnHover = false }) => {
       ? 120
       : 100;
 
-  const MIN_SPACING = 10; // Fixed 10px spacing
+  const MIN_SPACING = 10;
   const baseWidth = containerWidth;
   const circumference = Math.PI * baseWidth;
 
@@ -91,7 +96,7 @@ const RollingGallery = ({ autoplay = false, pauseOnHover = false }) => {
 
   const faceCount = repeatedImages.length;
   const faceWidth = SINGLE_IMAGE_WIDTH;
-  const spacing = MIN_SPACING; // Use fixed spacing
+  const spacing = MIN_SPACING;
   const radius = baseWidth / 2;
   const dragFactor = getDragFactor();
 
@@ -106,7 +111,7 @@ const RollingGallery = ({ autoplay = false, pauseOnHover = false }) => {
   // Event handlers
   const handleGenreSelect = (url) => {
     const genre = url.split("/").pop().split(".")[0];
-    changeDisplayMode("genre", genre); // Change both mode and genre
+    changeDisplayMode("genre", genre);
   };
 
   const handleDrag = (_, info) =>
@@ -161,7 +166,6 @@ const RollingGallery = ({ autoplay = false, pauseOnHover = false }) => {
     margin: `0 ${spacing}px`,
   });
 
-  // Effects
   useEffect(() => {
     const updateWidth = () => {
       if (containerRef.current) {

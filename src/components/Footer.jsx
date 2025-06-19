@@ -1,8 +1,10 @@
 import "../styles/Footer.css";
 import { FaGithub } from "react-icons/fa";
 import logo from "../images/logos/SoundPulse_black.png";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <footer className="footer">
       <div className="footer-left">
@@ -10,7 +12,7 @@ const Footer = () => {
       </div>
       <div className="footer-center">
         <p className="text-sm">
-          KaRoBo-Studio and Powered by Radio Browser API ©{" "}
+          {t("KaRoBo-Studio and Powered by Radio Browser API")} ©
           {new Date().getFullYear()}
         </p>
       </div>

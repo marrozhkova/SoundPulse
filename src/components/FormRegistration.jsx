@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import { FaTimes } from "react-icons/fa";
 import emailjs from "@emailjs/browser";
 import { useUser } from "../contexts/UserContext";
+import { convertImageToBase64 } from "../utilities/convert.js";
+import logo from "../images/logos/logo.png";
 
 const FormRegistration = ({ onClose, onSwitchToLogin }) => {
   const { t } = useTranslation();
@@ -55,13 +57,23 @@ const FormRegistration = ({ onClose, onSwitchToLogin }) => {
 
   const sendEmail = async (userData) => {
     setStatus({ message: "Sending...", type: "info" });
-
+    const base64Logo = await convertImageToBase64(logo);
     const templateParams = {
       to_email: userData.email,
       user_name: userData.username,
       password: userData.password,
       message: `Registration details for ${userData.username}`,
+      attachments: [
+        {
+          content: base64Logo.split(",")[1], // Remove data:image/png;base64, prefix
+          type: "image/png",
+          name: "logo.png",
+          cid: "company-logo", // Content-ID for the image
+        },
+      ],
     };
+
+    console.log("Sending email with attachments");
 
     await emailjs.send(
       "service_3z7zhao",
@@ -69,6 +81,7 @@ const FormRegistration = ({ onClose, onSwitchToLogin }) => {
       templateParams,
       "LIWb9KtXvMfuCxiqy"
     );
+    setStatus({ message: "Email sent successfully!", type: "success" });
   };
 
   return (
@@ -83,6 +96,7 @@ const FormRegistration = ({ onClose, onSwitchToLogin }) => {
         <div className="form-container-login">
           <h3>{t("Registration")}</h3>
           <input
+            id="username"
             type="text"
             placeholder={t("username*")}
             value={username}
@@ -91,6 +105,7 @@ const FormRegistration = ({ onClose, onSwitchToLogin }) => {
             required
           />
           <input
+            id="email"
             type="email"
             placeholder={t("e-mail*")}
             value={email}
@@ -99,6 +114,7 @@ const FormRegistration = ({ onClose, onSwitchToLogin }) => {
             required
           />
           <input
+            id="password"
             type="password"
             placeholder={t("password*")}
             value={password}
@@ -107,6 +123,7 @@ const FormRegistration = ({ onClose, onSwitchToLogin }) => {
             required
           />
           <input
+            id="confirmPassword"
             type="password"
             placeholder={t("confirm password*")}
             value={confirmPassword}

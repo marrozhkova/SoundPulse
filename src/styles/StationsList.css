@@ -24,9 +24,6 @@
   display: grid;
   grid-template-columns: 30% 70%;
   cursor: pointer;
-  /* grid-template-rows: subgrid;
-  grid-row: span 3;
-   */
 }
 
 .station-logo {
@@ -44,9 +41,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  /* display: grid;
-  grid-template-rows: subgrid;
-  grid-row: span 3; */
 }
 .pagination-controls {
   margin: auto;

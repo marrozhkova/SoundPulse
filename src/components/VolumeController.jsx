@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import "../styles/VolumeController.css";
 
 const VolumeController = ({ audio }) => {
-  // State and refs
   const [isDragging, setIsDragging] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const circleRef = useRef(null);
@@ -45,7 +44,6 @@ const VolumeController = ({ audio }) => {
     updateDotPosition(angle);
   };
 
-  // Event effects
   useEffect(() => {
     const handleMouseMove = (e) => {
       if (isDragging) {
@@ -65,13 +63,11 @@ const VolumeController = ({ audio }) => {
     };
   }, [isDragging]);
 
-  // Initial setup
   useEffect(() => {
     const initialAngle = volume * 2 * Math.PI;
     updateDotPosition(initialAngle);
   }, []);
 
-  // Audio sync
   useEffect(() => {
     if (audio) {
       audio.volume = volume;

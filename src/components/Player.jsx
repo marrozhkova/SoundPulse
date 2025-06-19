@@ -1,4 +1,3 @@
-// Player.jsx
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -40,7 +39,7 @@ import {
   WorkplaceIcon,
 } from "react-share";
 import React, { useContext } from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import {
   FaPlay,
@@ -53,6 +52,7 @@ import {
 } from "react-icons/fa";
 import VolumeController from "./VolumeController";
 import { FetchContext } from "../contexts/FetchContext";
+import { UserContext } from "../contexts/UserContext";
 import "../styles/Player.css";
 import player from "/player.webp";
 
@@ -67,14 +67,12 @@ const Player = ({ audio }) => {
     stations,
     nextStation,
     previousStation,
-    setCurrentStation,
     isDisliked,
     handleStationClick,
-    handleDislike, // Add this
-    like, // Add this if not already imported
+    handleDislike,
+    like,
   } = useContext(FetchContext);
-
-  //likeComponent
+  const { isAuthenticated } = useContext(UserContext);
   const handleLike = () => {
     if (currentStation) {
       like();
@@ -87,7 +85,6 @@ const Player = ({ audio }) => {
       handleDislike(currentStation);
       console.log("Disliking current station:", currentStation);
 
-      // If currently playing station is disliked, try playing next station
       if (isPlaying) {
         handleNextStation();
       }
@@ -97,9 +94,18 @@ const Player = ({ audio }) => {
   const size = 32;
   const [isShare, setIsShare] = useState(false);
   const containerRef = useRef(null);
+  const shareButtonRef = useRef(null);
+
+  const handleShare = useCallback((e) => {
+    e.stopPropagation();
+    setIsShare((prev) => !prev);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
+      if (shareButtonRef.current?.contains(event.target)) {
+        return;
+      }
       if (
         containerRef.current &&
         !containerRef.current.contains(event.target)
@@ -117,26 +123,16 @@ const Player = ({ audio }) => {
     if (isShare) {
       document.addEventListener("mousedown", handleClickOutside);
       document.addEventListener("keydown", handleEscKey);
-    }
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscKey);
-    };
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener("keydown", handleEscKey);
+      };
+    }
   }, [isShare]);
 
-  const handleShare = () => {
-    setIsShare(!isShare);
-    // console.log("Share state:", !isShare);
-  };
-
-  // Add isChanging state
-  const [isChanging, setIsChanging] = useState(false);
-
-  // Add lastSuccessfulIndex to track position even when playback fails
   const [lastSuccessfulIndex, setLastSuccessfulIndex] = useState(-1);
 
-  // Update navigation handlers
   const handleNextStation = async () => {
     try {
       if (!stations?.length) {
@@ -145,21 +141,20 @@ const Player = ({ audio }) => {
       }
 
       let currentIndex = currentStation
-        ? stations.findIndex((s) => s.id === currentStation.id)
+        ? stations.findIndex(
+            (s) => s.stationuuid === currentStation.stationuuid
+          )
         : lastSuccessfulIndex;
 
-      // If index is invalid, start from beginning
       if (currentIndex < 0 || currentIndex >= stations.length) {
         currentIndex = -1;
       }
 
       console.log("Next station clicked, current index:", currentIndex);
 
-      // Calculate next index with bounds check
       const targetIndex = (currentIndex + 1) % stations.length;
       console.log(`Moving to station index: ${targetIndex}`);
 
-      // Try to play the station
       try {
         await handleStationClick(stations[targetIndex]);
         setLastSuccessfulIndex(targetIndex);
@@ -183,22 +178,21 @@ const Player = ({ audio }) => {
       }
 
       let currentIndex = currentStation
-        ? stations.findIndex((s) => s.id === currentStation.id)
+        ? stations.findIndex(
+            (s) => s.stationuuid === currentStation.stationuuid
+          )
         : lastSuccessfulIndex;
 
-      // If index is invalid, start from end
       if (currentIndex < 0 || currentIndex >= stations.length) {
         currentIndex = stations.length;
       }
 
       console.log("Previous station clicked, current index:", currentIndex);
 
-      // Calculate previous index with bounds check
       const targetIndex =
         currentIndex === 0 ? stations.length - 1 : currentIndex - 1;
       console.log(`Moving to station index: ${targetIndex}`);
 
-      // Try to play the station
       try {
         await handleStationClick(stations[targetIndex]);
         setLastSuccessfulIndex(targetIndex);
@@ -214,29 +208,17 @@ const Player = ({ audio }) => {
     }
   };
 
-  // Update useEffect to initialize lastSuccessfulIndex when component mounts
   useEffect(() => {
     if (currentStation && stations?.length) {
-      const index = stations.findIndex((s) => s.id === currentStation.id);
+      const index = stations.findIndex(
+        (s) => s.stationuuid === currentStation.stationuuid
+      );
       if (index !== -1) {
         setLastSuccessfulIndex(index);
       }
     }
   }, [currentStation, stations]);
 
-  // Hilfsfunktion zum Formatieren der Tags
-  const formatTags = (tags) => {
-    if (Array.isArray(tags)) return tags.join(", ");
-    if (typeof tags === "string") {
-      return tags
-        .split(/(?=[A-Z])/)
-        .join(", ")
-        .toLowerCase();
-    }
-    return tags;
-  };
-
-  // Hilfsfunktion zum Kürzen des Stationsnamens
   const truncateStationName = (name) => {
     if (name.length > 28) {
       return name.substring(0, 28) + "...";
@@ -249,7 +231,6 @@ const Player = ({ audio }) => {
       <div className="player-container ">
         <img src={player} alt="Player" className="player-background" />
 
-        {/* Now Playing Info Box */}
         <div className="now-playing-info">
           <div className="station-content">
             <div className="station-text">
@@ -278,14 +259,16 @@ const Player = ({ audio }) => {
                 <button
                   className="action-button like-button"
                   onClick={handleLike}
+                  disabled={!isAuthenticated}
                 >
                   <FaHeart size={24} />
                 </button>
                 <button
                   className={`action-button dislike-button ${
-                    isDisliked(currentStation?.id) ? "active" : ""
+                    isDisliked(currentStation?.stationuuid) ? "active" : ""
                   }`}
                   onClick={onDislike}
+                  disabled={!isAuthenticated}
                 >
                   <FaThumbsDown size={24} />
                 </button>
@@ -294,6 +277,7 @@ const Player = ({ audio }) => {
                   className={`action-button share-button ${
                     isShare ? "active" : ""
                   }`}
+                  ref={shareButtonRef}
                 >
                   <FaShare size={24} />
                 </button>
@@ -367,16 +351,14 @@ const Player = ({ audio }) => {
           </div>
         </div>
 
-        {/* Volume Controller */}
         <div className="volume-controller-position">
           <VolumeController audio={audio} />
         </div>
 
-        {/* Play Controls */}
         <button
           className="previous-button"
           onClick={handlePreviousStation}
-          disabled={!stations?.length} // Remove isChanging check
+          disabled={!stations?.length}
         >
           <FaStepBackward size={24} />
         </button>
@@ -385,7 +367,9 @@ const Player = ({ audio }) => {
           className="play-button"
           onClick={handlePlayPause}
           disabled={
-            !currentStation || isLoading || isDisliked(currentStation?.id)
+            !currentStation ||
+            isLoading ||
+            isDisliked(currentStation?.stationuuid)
           }
         >
           {isPlaying ? (
@@ -398,7 +382,7 @@ const Player = ({ audio }) => {
         <button
           className="next-button"
           onClick={handleNextStation}
-          disabled={!stations?.length} // Remove isChanging check
+          disabled={!stations?.length}
         >
           <FaStepForward size={24} />
         </button>

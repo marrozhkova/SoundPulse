@@ -11,13 +11,51 @@
 
 .logo {
   width: 400px;
+  top: -30px;
+  position: relative;
 }
 
 .title {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 500;
   color: var(--black);
   font-family: "Fredoka", sans-serif;
   margin-bottom: 4rem;
   text-align: center;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .logo {
+    width: 300px;
+    top: -20px;
+  }
+
+  .title {
+    font-size: 1.8rem;
+    margin-bottom: 3rem;
+  }
+
+  .header {
+    padding-top: 60px;
+    padding-bottom: 30px;
+  }
+}
+
+/* Smartphone */
+@media (max-width: 480px) {
+  .logo {
+    width: 220px;
+    top: -10px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .header {
+    padding-top: 40px;
+    padding-bottom: 20px;
+  }
 }

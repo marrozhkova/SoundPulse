@@ -4,7 +4,7 @@
   align-items: center;
   padding: 1rem 4rem;
   background-color: rgba(104, 177, 150, 0.5);
-  box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+  width: 100;
   flex-wrap: nowrap;
 }
 
@@ -47,7 +47,7 @@
 }
 
 .icon-footer-wrapper:hover {
-  color: var(--primary);
+  color: var(--beige);
 }
 
 .icon-footer-wrapper svg {
@@ -55,7 +55,7 @@
   height: 24px;
 }
 
-/* ===== Mobile layout ===== */
+/*  Mobile layout  */
 @media (max-width: 768px) {
   .footer {
     flex-direction: column;
@@ -92,5 +92,16 @@
   .icon-footer-wrapper svg {
     width: 2rem;
     height: 2rem;
+  }
+}
+svg {
+  transition: transform 0.3s ease, fill 0.3s ease;
+  fill: currentColor;
+}
+
+/* Dark Mode Hover */
+@media (prefers-color-scheme: dark) {
+  svg:hover {
+    transform: scale(1.2);
   }
 }

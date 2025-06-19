@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 
-const UserContext = createContext();
+export const UserContext = createContext();
 
 export const useUser = () => {
   return useContext(UserContext);
@@ -20,9 +20,9 @@ export const UserProvider = ({ children }) => {
 
   const registerUser = ({ username, email, password }) => {
     const newUser = { username, email, password };
-
-    localStorage.setItem("registeredUser", JSON.stringify(newUser));
-
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    users.push(newUser);
+    localStorage.setItem("users", JSON.stringify(users));
     setUser(newUser);
     localStorage.setItem("activeUser", JSON.stringify(newUser));
     setIsAuthenticated(true);
@@ -30,14 +30,12 @@ export const UserProvider = ({ children }) => {
 
   const loginUser = async (username, password) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const savedUser = users.find(
+      (user) => user.username === username && user.password === password
+    );
 
-    const savedUser = JSON.parse(localStorage.getItem("registeredUser"));
-
-    if (
-      savedUser &&
-      savedUser.username === username &&
-      savedUser.password === password
-    ) {
+    if (savedUser) {
       setUser(savedUser);
       localStorage.setItem("activeUser", JSON.stringify(savedUser));
       setIsAuthenticated(true);
@@ -49,7 +47,6 @@ export const UserProvider = ({ children }) => {
   const logoutUser = () => {
     setUser(null);
     setIsAuthenticated(false);
-
     localStorage.removeItem("activeUser");
   };
 

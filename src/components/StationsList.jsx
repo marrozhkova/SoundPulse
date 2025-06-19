@@ -20,8 +20,8 @@ const StationsList = () => {
     nextPage,
     previousPage,
     currentPage,
-    nextSearchPage, // Add these
-    previousSearchPage, // Add these
+    nextSearchPage, 
+    previousSearchPage, 
     setItemsPerPage,
     stationGenre,
     handleStationClick,
@@ -111,7 +111,7 @@ const StationsList = () => {
         return t("No favorites yet");
       case "search":
       case "filter":
-        return t("No stations found matching your demand"); // Generic message for both search and filter
+        return t("No stations found matching your demand"); 
       case "genre":
         return t("No stations found in this genre");
       default:

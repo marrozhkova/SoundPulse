@@ -3,6 +3,7 @@ import { FaHeart, FaRandom, FaFilter, FaSearch, FaStar } from "react-icons/fa";
 import "../styles/SearchButtons.css";
 import { useTranslation } from "react-i18next";
 import { FetchContext } from "../contexts/FetchContext";
+import { UserContext } from "../contexts/UserContext";
 
 const SearchButtons = () => {
   const { t } = useTranslation();
@@ -13,8 +14,9 @@ const SearchButtons = () => {
     getRandomStation,
     fetchTopStations,
     searchStationsByName,
-    searchStationsByFilters, // Add this line
+    searchStationsByFilters,
   } = useContext(FetchContext);
+  const { isAuthenticated } = useContext(UserContext);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -54,7 +56,7 @@ const SearchButtons = () => {
     e.preventDefault();
     if (searchValue.trim()) {
       searchStationsByName(searchValue);
-      setSearchValue(""); // Clear input after search
+      setSearchValue("");
     }
   };
 
@@ -95,7 +97,6 @@ const SearchButtons = () => {
         console.log("Applying filters:", filters);
         await searchStationsByFilters(filters);
         setIsDropdownOpen(false);
-        // Clear filters after successful search
         setFilterValues({
           name: "",
           country: "",
@@ -106,13 +107,11 @@ const SearchButtons = () => {
         });
       } catch (error) {
         console.error("Filter search failed:", error.message);
-        // Keep the dropdown open if there's an error
         setIsDropdownOpen(true);
       }
     }
   };
 
-  // Add new handler for enter key
   const handleFilterKeyPress = (e) => {
     if (e.key === "Enter") {
       handleFilterSubmit();
@@ -125,6 +124,7 @@ const SearchButtons = () => {
         <button
           className={`button ${displayMode === "favorites" ? "active" : ""}`}
           onClick={() => changeDisplayMode("favorites")}
+          disabled={!isAuthenticated}
         >
           <FaHeart size={24} /> {t("My favorites")}
         </button>
@@ -160,7 +160,7 @@ const SearchButtons = () => {
                   placeholder={t("Enter station name in English")}
                   value={filterValues.name}
                   onChange={(e) => handleFilterChange("name", e.target.value)}
-                  onKeyPress={handleFilterKeyPress}
+                  onKeyDown={handleFilterKeyPress}
                 />
               </div>
               <div className="filter-field">
@@ -172,7 +172,7 @@ const SearchButtons = () => {
                   onChange={(e) =>
                     handleFilterChange("country", e.target.value)
                   }
-                  onKeyPress={handleFilterKeyPress}
+                  onKeyDown={handleFilterKeyPress}
                 />
               </div>
               <div className="filter-field">
@@ -184,7 +184,7 @@ const SearchButtons = () => {
                   onChange={(e) =>
                     handleFilterChange("language", e.target.value)
                   }
-                  onKeyPress={handleFilterKeyPress}
+                  onKeyDown={handleFilterKeyPress}
                 />
               </div>
               <div className="filter-field">
@@ -194,7 +194,7 @@ const SearchButtons = () => {
                   placeholder={t("Enter genre in English")}
                   value={filterValues.genre}
                   onChange={(e) => handleFilterChange("genre", e.target.value)}
-                  onKeyPress={handleFilterKeyPress}
+                  onKeyDown={handleFilterKeyPress}
                 />
               </div>
               <div className="filter-field">
@@ -206,7 +206,7 @@ const SearchButtons = () => {
                   onChange={(e) =>
                     handleFilterChange("bitrate", e.target.value)
                   }
-                  onKeyPress={handleFilterKeyPress}
+                  onKeyDown={handleFilterKeyPress}
                 />
               </div>
               <div className="codec-selection">
@@ -251,7 +251,7 @@ const SearchButtons = () => {
             placeholder={t("Search for channels...")}
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
           />
           <button
             className="button search-button"

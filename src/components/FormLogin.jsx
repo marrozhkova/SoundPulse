@@ -5,11 +5,13 @@ import { useTranslation } from "react-i18next";
 import { FaTimes } from "react-icons/fa";
 import { useUser } from "../contexts/UserContext";
 import FormRegistration from "./FormRegistration";
+import FormPasswortForgot from "./FormPasswortForgot";
 
 const FormLogin = ({ onClose }) => {
   const { t } = useTranslation();
   const { loginUser, isAuthenticated } = useUser();
   const [showRegistration, setShowRegistration] = useState(false);
+  const [showPasswordForgot, setShowPasswordForgot] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -32,28 +34,33 @@ const FormLogin = ({ onClose }) => {
     setMessage(t("Logging in..."));
 
     await loginUser(username, password);
-
-    if (isAuthenticated) {
-      setMessage(t("Login successful!"));
-      setTimeout(() => {
-        onClose();
-      }, 3000);
-    } else {
-      setMessage(t("Invalid username or password."));
-    }
   };
 
   const handleSignUp = () => {
     setShowRegistration(true);
   };
 
+  const handleForgot = () => {
+    setShowPasswordForgot(true);
+  };
+
   const handleSwitchToLogin = () => {
     setShowRegistration(false);
+    setShowPasswordForgot(false);
   };
 
   if (showRegistration) {
     return (
       <FormRegistration
+        onClose={onClose}
+        onSwitchToLogin={handleSwitchToLogin}
+      />
+    );
+  }
+
+  if (showPasswordForgot) {
+    return (
+      <FormPasswortForgot
         onClose={onClose}
         onSwitchToLogin={handleSwitchToLogin}
       />
@@ -91,9 +98,14 @@ const FormLogin = ({ onClose }) => {
             className="input-form"
           />
           {message && <p className="info-text">{message}</p>}
+          {/* Forgot passwort or username */}
+          <button className="forgot-button" onClick={handleForgot}>
+            {t("Forgot username or password?")}
+          </button>
           <button className="button" onClick={handleLogin}>
             {t("Log In")}
           </button>
+
           <div className="signup-link">
             <span className="text-m">{t("Don't have an account? ")}</span>
             <button className="signup-button" onClick={handleSignUp}>

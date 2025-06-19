@@ -2,8 +2,7 @@
   margin: auto;
   position: relative;
   width: 100%;
-  height: 160px; /* Fixed height to accommodate images + border */
-  /* overflow: hidden; */
+  height: 160px;
 }
 
 .gallery-gradient {

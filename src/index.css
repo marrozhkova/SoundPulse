@@ -10,11 +10,13 @@
   font-style: normal;
   font-variation-settings: "wdth" 100;
 }
+
 #root {
   width: 100%;
   height: 100%;
   max-width: 1920px;
 }
+
 html {
   font-size: 62.5%;
   width: 100%;
@@ -45,7 +47,7 @@ body {
   --white: #ffffff;
   --error: #d05d5b;
   --warning: #e7c05c;
-
+  --nav: rgba(36, 22, 10, 0.05);
   --border-radius-small: 10px;
   --border-radius-medium: 25px;
   --border-radius-big: 50px;
@@ -57,19 +59,24 @@ body {
   --beige: #24160a;
   --brown: var(--title);
   --title: #ffdbae;
+
   .icon {
     color: var(--primary);
+
     &:hover {
       color: var(--title);
     }
   }
+
   .title {
     color: var(--title);
   }
+
   .language-dropdown {
     background-color: var(--search);
     color: var(--brown);
   }
+
   .checkbox-group label {
     color: var(--title);
   }
@@ -80,13 +87,16 @@ body {
 h1 {
   font-size: 6.4rem;
 }
+
 h2 {
   font-size: 3.6rem;
   padding-bottom: 4rem;
 }
+
 h3 {
   font-size: 2.8rem;
 }
+
 h4 {
   font-size: 2rem;
 }
@@ -94,12 +104,15 @@ h4 {
 .text-xl {
   font-size: 1.8rem;
 }
+
 .text-l {
   font-size: 1.6rem;
 }
+
 .text-m {
   font-size: 1.4rem;
 }
+
 .text-sm {
   font-size: 1.2rem;
 }
@@ -107,10 +120,12 @@ h4 {
 .text-xs {
   font-size: 1rem;
 }
+
 /* Padding Section */
 .padding-section {
   padding-bottom: 12rem;
 }
+
 /* Button style */
 .button {
   cursor: pointer;
@@ -225,6 +240,7 @@ h4 {
   h1 {
     font-size: 4.8rem;
   }
+
   .button {
     padding: 8px 16px;
     font-size: 14px;
@@ -244,6 +260,7 @@ h4 {
     padding: 8px 16px;
     font-size: 14px;
   }
+
   .padding-section {
     padding-bottom: 4rem;
   }
@@ -271,9 +288,13 @@ h4 {
     height: 100%;
   }
 }
+
 button:focus,
 button:focus-visible {
   outline: none;
   border: none;
   box-shadow: none;
+}
+button:disabled {
+  cursor: not-allowed;
 }

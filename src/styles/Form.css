@@ -6,7 +6,6 @@
   width: 250px;
   margin-bottom: 2rem;
 }
-/* All */
 
 .modal-overlay {
   position: fixed;
@@ -26,10 +25,9 @@
 }
 .modal-content {
   position: relative;
-  background: var(--white);
+  background-color: var(--beige);
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: var(--border-radius-small);
   max-width: 400px;
   width: 100%;
 }
@@ -51,15 +49,6 @@
   color: var(--primary);
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 3rem;
-  z-index: 100;
-}
-
 .input-form {
   margin-bottom: 0.5rem;
   padding: 1.4rem 2rem;
@@ -71,7 +60,7 @@
   color: var(--black);
 }
 
-/* ===== login Form style =====*/
+/* Login Form style */
 
 .info-text {
   margin: 1rem;
@@ -99,11 +88,24 @@
   cursor: pointer;
   font-size: 1.4rem;
 }
+.back-button {
+  background: none;
+  border: none;
+  color: var(--black);
+  cursor: pointer;
+  font-size: 1.4rem;
+}
 
 .signup-button:hover {
   text-decoration: underline;
 }
-
+.forgot-button {
+  background: none;
+  border: none;
+  color: var(--error);
+  cursor: pointer;
+  font-size: 1.4rem;
+}
 .or-container {
   display: flex;
   align-items: center;
@@ -138,7 +140,6 @@
 }
 
 /* Form Settings */
-
 .tabs {
   display: flex;
   gap: 2rem;
