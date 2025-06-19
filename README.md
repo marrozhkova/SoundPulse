@@ -18,6 +18,11 @@ A sleek, responsive **online radio application** designed with a modern interfac
 
 ---
 
+## 🎯 Purpose
+This project demonstrates modern front-end layout design and responsive styling. It serves as a foundation for future music-related applications or web-based audio interfaces.
+
+---
+
 ## 🧑‍💻 Tech Stack
 
 - **HTML**
@@ -43,3 +48,10 @@ git clone https://github.com/marrozhkova/SoundPulse.git
 cd SoundPulse
 npm install
 npm run dev
+```
+## 👤 About me
+
+**Maryna Rozhkova**  
+Frontend Developer | Learner by Heart  
+📫 [mar.rozhkova@gmail.com](mailto:mar.rozhkova@gmail.com)  
+🌐 [Portfolio](https://marrozhkova-portfolio.vercel.app/)
